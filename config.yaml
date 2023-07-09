@@ -1,24 +1,30 @@
 # 本文件为配置文件 *为必填项
-folder: data/     # *资源所在文件夹路径
-keep_temp: false  # *是否保留临时文件
+folder: 'resource/'     # *资源所在文件夹路径
+keep_temp: False  # *是否保留临时文件
+save_path: 'result/'          # *保存路径
 AlbumCover:
-  albumen: ''          # 专辑名称
-  title: ''               # 歌曲名称
-  artist: ''             # 歌手名称 以上三项任意一项手动则全部手动
+  albumen: 'metro'          # 专辑名称
+  title: 'metro'               # 歌曲名称
+  artist: 'metro'             # 歌手名称 以上三项任意一项手动则全部手动
   albumcover: ''         # *专辑封面路径
-  save_path: 'data/'          # *保存路径
-  cn_font: /usr/share/fonts/truetype/wqy/wqy-microhei.ttc # 中文字体路径
-  en_font: /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf # 英文字体路径
+  cn_font: C:\Windows\Fonts\BIZ-UDMinchoM.ttc # 中文字体路径
+  en_font: C:\Windows\Fonts\BIZ-UDMinchoM.ttc # 英文字体路径
   jp_font: C:\Windows\Fonts\BIZ-UDMinchoM.ttc # 日文字体路径
-  ot_font: /usr/share/fonts/truetype/wqy/wqy-zenhei.ttc # 其他文字体路径 手动指定
+  ot_font: C:\Windows\Fonts\comicz.ttf # 其他文字体路径 手动指定
   choose_font: 'jp' # *选择字体
   FONT_SIZE_LARGE: 115 # *大字体大小
   FONT_SIZE_SMALL: 60 # *小字体大小
+Lrc2Srt:
+  cn_font: 'Consolas' # *中文字体名称
+  en_font: 'Consolas' # *英文字体名称
+  jp_font: 'Consolas' # *日文字体名称
+  ot_font: 'Consolas' # *其他文字体名称 手动指定
+  main_font: 'jp' # *双语模式下选择原文字体
+  sub_font: 'cn' # *选择译文字体
 ffmpeg:               # *ffmpeg配置
   path: ffmpeg # *ffmpeg路径 如果环境已配置可只填ffmpeg
-  subtitle_path: C:\Windows\Fonts\BIZ-UDMinchoM.ttc # *字幕路径
-  frame: 3840x2160      # *分辨率
-  fps: 60               # *帧率
+  frame: 2440x1080      # *分辨率
+  fps: 30               # *帧率
   crf: 18               # *视频质量, 越小质量越高, 一般在18-28之间
   vcodec: h264_nvenc      # *视频编码器, libx264为h264编码, libx265为h265编码 libaom-av1 libvpx h264_nvenc
   -b:v: 10000k           # *视频码率, 一般为900k

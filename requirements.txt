@@ -1,4 +1,4 @@
 Pillow
 PyYAML
-pymediainfo
-
+pymediainfo==6.0.1
+pylrc==0.1.2

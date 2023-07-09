@@ -1,1 +1,1 @@
-python k.py
+python main.py
