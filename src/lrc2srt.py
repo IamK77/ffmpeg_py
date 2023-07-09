@@ -4,8 +4,8 @@ from pylrc.classes import Lyrics
 
 class qe_rs:
     def __init__(self):
-        self.start_line = None
-        self.mode = None
+        self.start_line = 0
+        self.mode = ''
 
 class lrc2srt:
     """
@@ -20,6 +20,48 @@ class lrc2srt:
         self.lrc_file.close()
         self.subs = pylrc.parse(lrc_string)
 
+    @staticmethod
+    def lan_mode():
+        """
+        获取lrc中的语言格式
+        """
+        lan_mode = input('选择语言模式:\n[1]单语\n[2]双语\n>>>')
+        os.system('cls') 
+        return lan_mode
+    
+    
+    def start_line_(self, mode=True):
+        """
+        起始切割行数
+        """
+        self.show_lrc(subs=self.subs)
+        if mode != True:
+            print('输入异常,请重新输入!')
+        most_line = len(self.subs) 
+        try:
+            start_line = int(input('输入开始行数(包含该行数):\n>>>')) #  if start_line != 'exit' else exit()
+        except ValueError:
+            os.system('cls')
+            return self.start_line_(mode=False)
+        os.system('cls')
+        if start_line <= most_line:
+            return start_line
+        else:
+            return self.start_line_(mode=False)
+    
+    def cut_line(self):
+        """
+        切割模式
+        """
+        mode = input('选择切割模式:\n[1]切割一半\n[2]交替切割\n>>>')  
+        if mode == '1':
+            return 'half'
+        elif mode == '2':
+            return 'alt'
+        elif mode == 'exit':
+            exit()
+        else:
+            return self.cut_line()
 
     def show_lrc(self, subs) -> None:  # 为什么不用self.subs
         """
@@ -36,57 +78,16 @@ class lrc2srt:
         通过递归确保输入正确
         或许用装饰器更好?
         """
-
-        def lan_mode():
-            """
-            获取lrc中的语言格式
-            """
-            lan_mode = input('选择语言模式:\n[1]单语\n[2]双语\n>>>')
-            os.system('cls') 
-            return lan_mode
-        
-        def start_line_(mode=True):
-            """
-            起始切割行数
-            """
-            self.show_lrc(subs=self.subs)
-            if mode != True:
-                print('输入异常,请重新输入!')
-            most_line = len(self.subs) 
-            try:
-                start_line = int(input('输入开始行数(包含该行数):\n>>>')) #  if start_line != 'exit' else exit()
-            except ValueError:
-                os.system('cls')
-                return start_line_(mode=False)
-            os.system('cls')
-            if start_line <= most_line:
-                return start_line
-            else:
-                return start_line_(mode=False)
-            
-        def cut_line():
-            """
-            切割模式
-            """
-            mode = input('选择切割模式:\n[1]切割一半\n[2]交替切割\n>>>')  
-            if mode == '1':
-                return 'half'
-            elif mode == '2':
-                return 'alt'
-            elif mode == 'exit':
-                exit()
-            else:
-                return cut_line()
         
         qe = qe_rs()
-        lan_mode_ = lan_mode()
+        lan_mode_ = self.lan_mode()
 
         if lan_mode_ == '1':
-            qe.start_line = start_line_()
+            qe.start_line = self.start_line_()
             return qe
         elif lan_mode_ == '2':
-            qe.start_line = start_line_()
-            qe.mode = cut_line()
+            qe.start_line = self.start_line_()
+            qe.mode = self.cut_line()
             return qe  
         elif lan_mode_ == 'exit':
             exit()
@@ -138,19 +139,8 @@ class lrc2srt:
             pass
         else:
             try:
-                line = int(line)    # 可以集成和其他功能一起  # 拆分开来，关注点分离，单一职责原则 如果不在main调用就是拆开 这个lrc2srt就是单独处理歌词的
-            except ValueError:  # 为啥不单独写个命令行工具来切割lrc，在这个文件再集成
-                """
-            应该是  但是生成srt只需要不到五行 但也不能class里的def里class和def，这是屎山的第一步
-            我有强迫症
-            感觉还好 特性不用白不用
-            def嵌套是我在尝试用递归   其实可以不用def嵌套搞，但是我懒得想了
-            class可以丢上面去
-            - lrc2srt
-            | - __init__.py
-            | - 切割src.py
-            | - 生成srt.py
-                """
+                line = int(line) 
+            except ValueError:
                 return self.check_lrc()
         self.show_lrc(subs=self.sub_subs)
         pass
